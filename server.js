@@ -4,7 +4,7 @@ var BodyParser = require("Body-Parser");
 var PouchDB = require("PouchDB");
 var database = new PouchDB("god_pouch");
 var app = Express();
-var remoteCouch = "http://127.0.0.1:5984/god"());
+var remoteCouch = "http://127.0.0.1:5984/god";
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 

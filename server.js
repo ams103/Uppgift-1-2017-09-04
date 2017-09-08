@@ -2,11 +2,21 @@
 var Express = require("Express");
 var BodyParser = require("Body-Parser");
 var PouchDB = require("PouchDB");
-var database = new PouchDB("http://127.0.0.1:5984/god");
+var database = new PouchDB("god_pouch");
 var app = Express();
-
+var remoteCouch = "http://127.0.0.1:5984/god"());
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
+
+sync();
+//This function syncs the couchdb with pouchdb
+function sync() {
+  var opts = {live: true};
+  database.replicate.to(remoteCouch, opts);
+  database.replicate.from(remoteCouch, opts);
+
+}
+
 //Get all documents
 app.get("/god", function(req,res) {
   database.allDocs({include_docs: true}).then(function(result) {
